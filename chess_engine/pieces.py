@@ -1,4 +1,4 @@
-from utils import translate_coords, is_in_check
+from .utils import translate_coords, is_in_check
 
 
 class Piece:

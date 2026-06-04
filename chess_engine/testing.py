@@ -1,5 +1,5 @@
-from board import create_and_set_board, translate_coords
-from visuals import print_board
+from .board import create_and_set_board, translate_coords
+from .visuals import print_board
 
 def test_create_board():
     my_board = create_and_set_board()

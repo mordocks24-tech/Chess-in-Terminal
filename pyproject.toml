@@ -1,0 +1,12 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "terminal-chess"
+version = "1.0.0"
+description = "A classic chess game in the terminal"
+dependencies = []
+
+[project.scripts]
+play-chess = "chess_engine.main:main"

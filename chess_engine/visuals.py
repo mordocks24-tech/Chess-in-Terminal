@@ -1,4 +1,4 @@
-from board import create_and_set_board, square
+from .board import create_and_set_board, square
 
 def print_board(board):
     for row in reversed(board): # Reverse so Rank 8 is at the top

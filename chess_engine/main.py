@@ -1,6 +1,6 @@
-from board import create_and_set_board, square
-from utils import translate_coords, is_in_check, is_checkmate
-from visuals import print_board
+from .board import create_and_set_board, square
+from .utils import translate_coords, is_in_check, is_checkmate
+from .visuals import print_board
 
 my_board = create_and_set_board()
 

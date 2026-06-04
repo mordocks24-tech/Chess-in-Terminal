@@ -1,0 +1,2 @@
+[console_scripts]
+play-chess = chess_engine.main:main
