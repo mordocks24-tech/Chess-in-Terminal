@@ -1,4 +1,5 @@
-from board import translate_coords
+from utils import translate_coords, is_in_check
+
 
 class Piece:
     def __init__(self, position, team):
@@ -7,17 +8,29 @@ class Piece:
     def get_valid_moves(self, board):
         return
     def attempt_move(self, board, targeted_coord_string):
-        target_row, target_column = translate_coords(targeted_coord_string)
+        target_row, target_col = translate_coords(targeted_coord_string)
         current_row, current_col = translate_coords(self.position)
 
-        if (target_row, target_column) in self.get_valid_moves(board):         
-            board[target_row][target_col].resident = self
-            self.position = targeted_coord_string
-            board[current_row][current_col].resident = None
-            return True
-        else:
+        if (target_row, target_col) not in self.get_valid_moves(board):
             print("Illegal Move!")
             return False
+
+        original_target_resident = board[target_row][target_col].resident
+
+        board[target_row][target_col].resident = self
+        board[current_row][current_col].resident = None
+
+        original_pos_string = self.position
+        self.position = targeted_coord_string
+
+        if is_in_check(self.team, board):
+            board[current_row][current_col].resident = self
+            board[target_row][target_col].resident = original_target_resident
+            self.position = original_pos_string
+            print("You cannot leave your King in check!")
+            return False
+
+        return True
 
 class Pawn(Piece):
     def __init__(self, position, team):
@@ -25,28 +38,29 @@ class Pawn(Piece):
         self.symbol = "♟" if team == "white" else "♙"
     
     def get_valid_moves(self, board):
-        current_row, current_col = translate_coords(self.position)
+        current_row, current_column = translate_coords(self.position)
         valid_moves = []
         direction = 1 if self.team == "white" else -1
         target_row = current_row + direction
 
         # moves forward once 
         if 0 <= target_row <= 7:
-            if board[target_row][current_col].resident is None:
-                valid_moves.append((target_row, (current_col)))
+            if board[target_row][current_column].resident is None:
+                valid_moves.append((target_row, (current_column)))
         # moves forward twice
                 start_row = 1 if self.team == "white" else 6
                 if current_row == start_row:
                     double_target = current_row + (direction * 2)
-                    if board[double_target][current_col].resident is None:
-                        valid_moves.append((double_target, current_col))
+                    if board[double_target][current_column].resident is None:
+                        valid_moves.append((double_target, current_column))
         #capture diagonally
         for cap in [-1, 1]:
-            target_column = current_col + cap
+            target_column = current_column + cap
             if 0 <= target_row <= 7 and 0 <= target_column <= 7:
                 diagonal_square = board[target_row][target_column]
                 if diagonal_square.resident != None and diagonal_square.resident.team != self.team:
                     valid_moves.append((target_row, target_column))
+        return valid_moves
 
 class Rook(Piece):
     def __init__(self, position, team):
@@ -73,7 +87,7 @@ class Rook(Piece):
                         break
                     elif target_square.resident.team == self.team:
                         break
-
+        return valid_moves
 
 class Bishop(Piece):
     def __init__(self, position, team):
@@ -100,7 +114,7 @@ class Bishop(Piece):
                         break
                     elif target_square.resident.team == self.team:
                         break
-
+        return valid_moves
 
 class Knight(Piece):
     def __init__(self, position, team):
@@ -121,7 +135,7 @@ class Knight(Piece):
 
                 if target_square.resident is None or target_square.resident.team != self.team:
                     valid_moves.append((target_row, target_column))
-            
+        return valid_moves           
 
 class Queen(Piece):
     def __init__(self, position, team):
@@ -148,6 +162,7 @@ class Queen(Piece):
                         break
                     elif target_square.resident.team == self.team:
                         break
+        return valid_moves
 
 class King(Piece):
     def __init__(self, position, team):
@@ -168,9 +183,4 @@ class King(Piece):
 
                 if target_square.resident == None:
                     valid_moves.append((target_row, target_column))
-                elif target_square.resident.team != self.team:
-                    valid_moves.append((target_row, target_column))
-                    break
-                elif target_square.resident.team == self.team:
-                    break
-
+        return valid_moves
