@@ -1,6 +1,6 @@
 # Terminal Chess
 
-A (mostly) functional chess engine that runs in your command line for Windows. (No Castleing or en passant. Yet!)
+A functional chess engine that runs in your command line for Windows. (No Castleing or en passant. Yet!)
 
 
 ## Prerequisites
