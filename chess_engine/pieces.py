@@ -13,6 +13,7 @@ class Piece:
 
         if (target_row, target_col) not in self.get_valid_moves(board):
             print("Illegal Move!")
+            printf("Enter a coordinate, e.g. 'e4'")
             return False
 
         original_target_resident = board[target_row][target_col].resident
