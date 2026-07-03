@@ -15,7 +15,7 @@ def translate_coords(coord_string):
          raise ValueError(f"String too short: '{coord_string}'")
     if len(coord_string) != 2:
         raise ValueError("Invalid format, 2 characters please.")
-    if coord_string[0].isalpha():
+    if not coord_string[0].isalpha():
         raise ValueError("First character must be a letter!")
     if not coord_string[1].isdigit():
         raise ValueError("Second character must be a number!")
