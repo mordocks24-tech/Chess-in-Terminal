@@ -31,12 +31,16 @@ def is_in_check(team, board):
         for sq in row:
             if sq.resident is not None and type(sq.resident).__name__ == "King" and sq.resident.team == team:
                 king_square = sq
-        
+    
+    if king_square is None:
+        return False
+    
+    king_indices = translate_coords(king_square.position)
+    
     for row in board:
         for sq in row:
             piece = sq.resident
-            if piece is not None and sq.resident.team != team:
-                king_indices = translate_coords(king_square.position)
+            if piece is not None and piece.team != team:
                 if king_indices in piece.get_valid_moves(board):
                     return True
     return False
