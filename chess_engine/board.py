@@ -1,5 +1,5 @@
 from .pieces import Pawn, Rook, Knight, King, Queen, Bishop
-from .utils import translate_coords, is_in_check
+
 class square:
     def __init__(self, position, resident=None):
         self.position = position
