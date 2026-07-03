@@ -9,6 +9,10 @@ def translate_indices(row, col):
     return letter + number
 
 def translate_coords(coord_string):
+    if not isinstance(coord_string, str):
+         raise ValueError(f"Expected string, got {type(coord_string)}: {coord_string}")
+    if len(coord_string) < 2:
+         raise ValueError(f"String too short: '{coord_string}'")
     if len(coord_string) != 2:
         raise ValueError("Invalid format, 2 characters please.")
     if coord_string[0].isalpha():
