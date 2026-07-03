@@ -54,7 +54,7 @@ def is_checkmate(team, board):
                     original_target_resident = board[tr][tc].resident
                     board[tr][tc].resident = piece
                     board[cr][cc].resident = None
-                    piece.position = f"temp_pos" 
+                    piece.position = "e4"
 
                     still_in_check = is_in_check(team, board)
 
